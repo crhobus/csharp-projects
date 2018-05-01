@@ -1,0 +1,40 @@
+﻿@model SGAL.Web.Models.ComentarioView
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h2>Editar Comentário</h2>
+
+
+@using (Html.BeginForm(new { idMontagem = ViewBag.Montagem.MontagemID, idComentario = Model.ComentarioID }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Comentário</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TextoComentario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TextoComentario, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Voltar para Lista", "Index", new { idMontagem = ViewBag.Montagem.MontagemID })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

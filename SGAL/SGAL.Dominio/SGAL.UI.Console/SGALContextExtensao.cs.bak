@@ -1,0 +1,21 @@
+﻿using SGAL.AcessoDados;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SGAL.UI.ConsoleX
+{
+    public static class SGALContextExtensao
+    {
+        public static IEnumerable<LegooZerApresentacao> RecuperarParaApresentacao(this SGALContext context)
+        {
+            var legooZersComEndereco = from legoozer in context.LegooZers.Include("Enderecos")
+                                       select legoozer;
+
+            return from legoozer in legooZersComEndereco.AsEnumerable()
+                   select new LegooZerApresentacao(legoozer.NomeCompleto, legoozer.EnderecoEmail, legoozer.Enderecos[0].Cidade);
+        }
+    }
+}

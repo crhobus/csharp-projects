@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SGAL.Dominio
+{
+    public class Montagem : Entidade
+    {
+        public Montagem() : this(0)
+        { }
+
+        public Montagem(int montagemID)
+        {
+            this.MontagemID = montagemID;
+            Itens = new List<ItemMontagem>();
+        }
+
+        public int MontagemID { get; private set; }
+        public LegooZer LegooZer { get; set; }
+        public DateTimeOffset DataCriacao { get; set; }
+        public string DescricaoPassoAPasso { get; set; }
+        public List<ItemMontagem> Itens { get; private set; }
+        public byte[] ByteArrayImage { get; set; }
+        [NotMapped]
+        public Image ImagemFinal
+        {
+            get
+            {
+                if (ByteArrayImage != null)
+                    return ByteArrayToImage(ByteArrayImage);
+                else
+                    return null;
+            }
+            set
+            {
+                if (value != null)
+                    ByteArrayImage = ImageToByteArray(value);
+                else
+                    ByteArrayImage = null;
+            }
+        }
+
+        private Image ByteArrayToImage(byte[] byteArrayIn)
+        {
+            Image returnImage = null;
+            using (MemoryStream ms = new MemoryStream(byteArrayIn))
+            {
+                returnImage = Image.FromStream(ms);
+            }
+            return returnImage;
+        }
+
+        private byte[] ImageToByteArray(Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            return ms.ToArray();
+        }
+
+        protected override bool Validar()
+        {
+            bool itemValido = Itens.Count > 0;
+            foreach (ItemMontagem item in Itens)
+            {
+                if (!item.Valido)
+                {
+                    itemValido = false;
+                }
+            }
+            return LegooZer != null
+                && LegooZer.Valido
+                && !string.IsNullOrWhiteSpace(DescricaoPassoAPasso)
+                && ImagemFinal != null
+                && itemValido;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Montagem {0:yyyy-MM-dd HH:mm:ss}", this.DataCriacao);
+        }
+    }
+}

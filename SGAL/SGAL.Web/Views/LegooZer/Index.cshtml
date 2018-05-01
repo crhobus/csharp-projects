@@ -1,0 +1,30 @@
+﻿@using SGAL.Dominio
+@model IEnumerable<SGAL.Dominio.LegooZer>
+
+@{
+    ViewBag.Title = "LegooZers";
+}
+
+<h2>Legoozers</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Legoozer", "Create")
+</p>
+
+@foreach (var item in Model)
+{
+    var primeiroEnderecoResidencial = item.Enderecos
+                                          .Where(e => e.TipoEndereco == TipoEndereco.Residencial)
+                                          .FirstOrDefault();
+
+    <div class="legoozer">
+        <h4>@Html.ActionLink(item.NomeCompleto, "Edit", new { id = item.LegooZerID })</h4>
+        <span>@string.Format("{0:D4}", item.LegooZerID)</span>
+        <p>@item.EnderecoEmail</p>
+        <h6>@Html.ActionLink("Endereços", "Index", "EnderecosLegooZer", new { idLegoozer = item.LegooZerID }, null)</h6>
+        @if (primeiroEnderecoResidencial != null)
+        {
+            <p>@primeiroEnderecoResidencial</p>
+        }
+    </div>
+}

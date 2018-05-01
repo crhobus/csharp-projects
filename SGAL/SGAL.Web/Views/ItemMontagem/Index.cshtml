@@ -1,0 +1,30 @@
+﻿@model IEnumerable<SGAL.Dominio.ItemMontagem>
+
+@{
+    ViewBag.Title = string.Format("Itens de {0}", ViewBag.Montagem);
+}
+
+<h2>@string.Format("Itens de {0}", ViewBag.Montagem)</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Nova Peça a Montagem", "Create", new { idMontagem = ViewBag.Montagem.MontagemID })
+</p>
+
+<br clear="all" />
+
+@foreach (var item in Model)
+{
+    <div class="peca" style="width:150px;height:150px">
+        <div class="imagemPeca">
+            @if (item.Peca.ByteArrayImage != null)
+            {
+                <img src='@string.Format("data:image/jpg;base64,{0}", item.Peca.ByteArrayImage.ToBase64String())' width="100" height="100" />
+            }
+        </div>
+        @Html.ActionLink(item.Quantidade.ToString(), "Edit", new { idMontagem = ViewBag.Montagem.MontagemID, idItemMontagem = item.ItemMontagemID })
+
+    </div>
+
+}
+
+<br clear="all" />

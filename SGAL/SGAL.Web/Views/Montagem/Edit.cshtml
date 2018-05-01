@@ -1,0 +1,49 @@
+﻿@model SGAL.Web.Models.MontagemView
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editando Montagem</h2>
+
+@using (Html.BeginForm("Edit", "Montagem", new { idMontagem = Model.MontagemID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Montagem</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MontagemID)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Descrição passo a passo</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DescricaoPassoAPasso, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DescricaoPassoAPasso, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Imagem Final</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ImagemFinal, new { type = "file", htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImagemFinal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Voltar para lista", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

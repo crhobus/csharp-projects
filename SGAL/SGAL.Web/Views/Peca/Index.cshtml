@@ -1,0 +1,30 @@
+﻿@using SGAL.Web.Controllers
+@model IEnumerable<SGAL.Dominio.Peca>
+
+@{
+    ViewBag.Title = "Peças";
+}
+
+<h2>Peça</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Peça", "Create")
+</p>
+
+<br clear="all" />
+
+@foreach (var item in Model)
+{
+    <div class="peca">
+        <div class="imagemPeca">
+            @if (item.ByteArrayImage != null)
+            {
+                <img src='@string.Format("data:image/jpg;base64,{0}", item.ByteArrayImage.ToBase64String())' width="100" height="100" />
+            }
+        </div>
+        <span>@string.Format("{0:D4}", item.PecaID)</span>
+        <p>@Html.ActionLink(item.Descricao, "Edit", new { idPeca = item.PecaID })</p>
+    </div>
+}
+
+<br clear="all" />

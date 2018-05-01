@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SGAL.Dominio.Endereco>
+
+@{
+    ViewBag.Title = string.Format("Endereços de {0}", ViewBag.LegooZer);
+}
+
+<h2>@string.Format("Endereços de {0}", ViewBag.LegooZer)</h2>
+
+<p>
+    @Html.ActionLink("Criar novo endereço", "Create", new { idLegoozer = ViewBag.LegooZer.LegooZerID })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoEndereco)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Linha01)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Linha02)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoPostal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pais)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoEndereco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Linha01)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Linha02)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoPostal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pais)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { idLegoozer = ViewBag.LegooZer.LegooZerID, idEndereco = item.EnderecoID })
+            </td>
+        </tr>
+    }
+
+</table>

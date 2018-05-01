@@ -1,0 +1,41 @@
+﻿@model IEnumerable<SGAL.Dominio.Montagem>
+
+@{
+    ViewBag.Title = "Montagens";
+}
+
+<h2>Montagens</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Montagem", "Create")
+</p>
+
+<br clear="all" />
+
+@foreach (var item in Model)
+{
+
+    var ultimoComentario = item.Comentarios.LastOrDefault();
+
+    <div class="peca" style="width:380px;height:380px">
+        <div class="imagemPeca">
+            @if (item.ByteArrayImage != null)
+            {
+                <img src='@string.Format("data:image/jpg;base64,{0}", item.ByteArrayImage.ToBase64String())' width="160" height="160" />
+            }
+        </div>
+        <p>@Html.ActionLink(item.DescricaoPassoAPasso, "Edit", new { idMontagem = item.MontagemID })</p>
+        <h6>@Html.ActionLink("Detalhar Peças", "Index", "ItemMontagem", new { idMontagem = item.MontagemID }, null)</h6>
+        <h6>@Html.ActionLink("Comentarios", "Index", "Comentario", new { idMontagem = item.MontagemID }, null)</h6>
+        <h6>@Html.ActionLink("Avaliações", "Index", "Avaliacao", new { idMontagem = item.MontagemID }, null)</h6>
+        
+
+        @if (ultimoComentario != null)
+        {<p>Último Comentário:</p>
+            <p>@ultimoComentario.TextoComentario</p>
+        }
+        <span>© @item.DataCriacao.ToString("dd/MM/yyyy") - @item.LegooZer.NomeCompleto</span>
+    </div>
+}
+
+<br clear="all" />

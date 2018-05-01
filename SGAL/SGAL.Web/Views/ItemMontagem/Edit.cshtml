@@ -1,0 +1,41 @@
+﻿@model SGAL.Web.Models.ItemMontagemView
+
+@{
+    ViewBag.Title = string.Format("Itens de {0}", ViewBag.Montagem);
+}
+
+<h2>@string.Format("Editando itens de {0}", ViewBag.Montagem)</h2>
+
+@using (Html.BeginForm(new { idMontagem = ViewBag.Montagem.MontagemID, idItemMontagem = Model.ItemMontagemID }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Item Montagem</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ItemMontagemID)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Quantidade</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantidade, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantidade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Voltar para lista", "Index", new { idMontagem = ViewBag.Montagem.MontagemID })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
